@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Totally Real Conspiracy Files</title>
+<style>
+body {
+    background: #020402;
+    color: #00ff66;
+    font-family: "Courier New", monospace;
+    text-align: center;
+    padding: 30px;
+    overflow-x: hidden;
+}
+
+/* hacker moving background */
+body::before {
+    content: "010101 ACCESS 404 █▓▒░ CLASSIFIED DATA LEAK █▓▒░ SYSTEM BREACH 1100101";
+    position: fixed;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    color: rgba(0, 255, 102, 0.12);
+    font-size: 22px;
+    line-height: 35px;
+    word-spacing: 18px;
+    z-index: -2;
+    animation: matrixMove 8s linear infinite;
+    white-space: pre-wrap;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(0, 255, 102, 0.04),
+            rgba(0, 255, 102, 0.04) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes matrixMove {
+    from { transform: translateY(-100px); }
+    to { transform: translateY(100px); }
+}
+
+.container {
+    max-width: 760px;
+    margin: auto;
+    border: 2px solid #00ff66;
+    padding: 25px;
+    box-shadow: 0 0 25px #00ff66;
+    background: rgba(0, 0, 0, 0.82);
+}
+
+h1 {
+    text-shadow: 0 0 12px #00ff66;
+}
+
+button {
+    background: black;
+    color: #00ff66;
+    border: 2px solid #00ff66;
+    padding: 12px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 10px;
+    font-family: "Courier New", monospace;
+    box-shadow: 0 0 12px #00ff66;
+}
+
+button:hover {
+    background: #00ff66;
+    color: black;
+}
+
+#document {
+    margin-top: 25px;
+    background: #080808;
+    padding: 20px;
+    border: 1px dashed #00ff66;
+    text-align: left;
+    box-shadow: inset 0 0 20px rgba(0,255,102,0.25);
+    min-height: 160px;
+}
+
+.redacted {
+    background: #00ff66;
+    color: #00ff66;
+}
+
+.access-denied {
+    color: red;
+    border: 2px solid red;
+    background: #130000;
+    text-align: center;
+    box-shadow: 0 0 25px red;
+    animation: glitch 0.15s infinite;
+}
+
+.access-denied h2 {
+    font-size: 36px;
+    text-shadow: 0 0 12px red;
+}
+
+.download-box {
+    text-align: center;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 24px;
+    border: 2px solid #00ff66;
+    margin-top: 15px;
+    box-shadow: 0 0 12px #00ff66;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #00ff66;
+    box-shadow: 0 0 18px #00ff66;
+}
+
+.file-drag {
+    width: 160px;
+    padding: 15px;
+    border: 2px solid #00ff66;
+    margin: 20px auto;
+    text-align: center;
+    background: black;
+    animation: dragFile 2s forwards;
+}
+
+.folder {
+    border: 2px solid #00ff66;
+    padding: 15px;
+    margin: 20px auto;
+    width: 220px;
+    box-shadow: 0 0 15px #00ff66;
+}
+
+.comment {
+    border: 1px dashed #00ff66;
+    padding: 10px;
+    margin: 10px 0;
+    background: rgba(0,255,102,0.08);
+}
+
+.code-release {
+    position: fixed;
+    inset: 0;
+    background: black;
+    color: #00ff66;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    font-family: "Courier New", monospace;
+    animation: fadeIn 1s forwards;
+}
+
+.code-release h1 {
+    font-size: 60px;
+    text-shadow: 0 0 25px #00ff66;
+}
+
+@keyframes dragFile {
+    from { transform: translateX(-180px) rotate(-5deg); opacity: 0.4; }
+    to { transform: translateX(0) rotate(0deg); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    25% { transform: translate(2px, -2px); }
+    50% { transform: translate(-2px, 2px); }
+    75% { transform: translate(2px, 2px); }
+    100% { transform: translate(0); }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>TOP SECRET CONSPIRACY DATABASE</h1>
+    <p>Click below to reveal a totally real classified document.</p>
+
+    <button onclick="generateConspiracy()">Reveal File</button>
+    <button onclick="startFakeDownload()">Download File</button>
+
+    <div id="document">
+        Awaiting classified file...
+    </div>
+</div>
+
+<script>
+let currentConspiracy = null;
+
+const conspiracies = [
+    {
+        title: "The Moon Is Actually a Giant Cheese Storage Facility",
+        doc: "DOCUMENT #MOON-77: Satellite scans show suspicious dairy-like density under the lunar crust.",
+        download: {
+            fileTitle: "MOON_CHEESE_STORAGE.pdf",
+            headline: "SECRET GOVERNMENT FILE",
+            comments: [
+                "I knew the moon looked suspiciously snackable.",
+                "Why does this file smell like cheddar?",
+                "NASA has been hiding the crackers.",
+                "This explains the craters. Bite marks.",
+                "The astronauts definitely took samples."
+            ]
+        }
+    },
+    {
+        title: "Pigeons Are Government Wi-Fi Routers",
+        doc: "DOCUMENT #BIRD-NET-12: Urban pigeons recharge on power lines and scan for unsecured signals.",
+        download: {
+            fileTitle: "BIRD_NET_ROUTER_LOGS.zip",
+            headline: "GOVERNMENT IS LYING!",
+            comments: [
+                "A pigeon blinked at my router after I opened this.",
+                "My Wi-Fi got stronger near the park.",
+                "They are not birds. They are signal boosters.",
+                "One landed outside my window and my phone connected instantly.",
+                "The cooing is clearly modem noise."
+            ]
+        }
+    },
+    {
+        title: "Clouds Are Just Sky Sheep",
+        doc: "DOCUMENT #WOOL-404: Herd migration patterns detected in atmospheric clusters.",
+        download: {
+            fileTitle: "SKY_SHEEP_MIGRATION.mov",
+            headline: "CONSPIRACIES ARE TRUE!",
+            comments: [
+                "The clouds looked nervous after I read this.",
+                "Rain is absolutely sky sheep tears.",
+                "I saw one shaped like a sheep. Proof.",
+                "The wind is just a giant invisible shepherd.",
+                "This file baa'd at me."
+            ]
+        }
+    },
+    {
+        title: "Traffic Cones Grow Naturally Underground",
+        doc: "DOCUMENT #CONE-PLANT-9: Cones appear overnight in organized clusters.",
+        download: {
+            fileTitle: "CONE_FARM_EVIDENCE.png",
+            headline: "SECRET GOVERNMENT FILE",
+            comments: [
+                "I saw baby cones near a construction site.",
+                "They sprout after orange rain.",
+                "This explains why they multiply overnight.",
+                "Do not water them.",
+                "The cones are seasonal."
+            ]
+        }
+    },
+    {
+        title: "The Internet Is Powered by One Very Tired Hamster",
+        doc: "DOCUMENT #HAMSTER-01: Global lag correlates with hamster nap cycles.",
+        download: {
+            fileTitle: "HAMSTER_CORE_STATUS.exe",
+            headline: "GOVERNMENT IS LYING!",
+            comments: [
+                "The hamster deserves a raise.",
+                "Every lag spike is a snack break.",
+                "I heard tiny wheel squeaks from my laptop.",
+                "This explains buffering.",
+                "Someone give him a sunflower seed."
+            ]
+        }
+    },
+    {
+        title: "Socks Escape Through Washing Machine Portals",
+        doc: "DOCUMENT #SOCK-GATE: Missing sock reports increased after spin-cycle technology was introduced.",
+        download: {
+            fileTitle: "SOCK_PORTAL_BLUEPRINTS.pdf",
+            headline: "CONSPIRACIES ARE TRUE!",
+            comments: [
+                "I always knew the dryer was a wormhole.",
+                "One sock came back different.",
+                "The missing socks are building an army.",
+                "Spin cycle means portal mode.",
+                "My laundry basket is now under investigation."
+            ]
+        }
+    },    {
+        title: "Elevator Music Controls Human Thoughts",
+        doc: "DOCUMENT #DING-13: Subjects exposed to elevator music immediately forgot why they entered the building.",
+        download: {
+            fileTitle: "ELEVATOR_MIND_CONTROL.mp3",
+            headline: "GOVERNMENT IS LYING!",
+            comments: [
+                "I heard this and walked into the wrong room.",
+                "The ding is the trigger.",
+                "Why do I suddenly want to visit floor 7?",
+                "This explains every awkward elevator silence.",
+                "The music knows too much."
+            ]
+        }
+    },
+    {
+        title: "Bananas Are Secretly Measuring Humans",
+        doc: "DOCUMENT #BANANA-SCALE: Bananas appear in photos for scale far too often to be a coincidence.",
+        download: {
+            fileTitle: "BANANA_SCALE_PROGRAM.txt",
+            headline: "SECRET GOVERNMENT FILE",
+            comments: [
+                "The bananas have been collecting height data.",
+                "I trusted fruit. Never again.",
+                "Mine curved toward me after I read this.",
+                "Every grocery store is a measurement station.",
+                "The peel is the antenna."
+            ]
+        }
+    },
+    {
+        title: "Tornadoes Are Earth's Way of Resetting the Air",
+        doc: "DOCUMENT #TWISTER-88: Atmospheric analysis suggests tornadoes are targeted air purges.",
+        download: {
+            fileTitle: "AIR_RESET_PROTOCOL.dat",
+            headline: "CONSPIRACIES ARE TRUE!",
+            comments: [
+                "The sky hit the refresh button.",
+                "That spiral is definitely a loading icon.",
+                "Earth needs better ventilation.",
+                "I saw the clouds reboot.",
+                "The wind had admin access."
+            ]
+        }
+    },
+    {
+        title: "Mirrors Are Slightly Delayed Realities",
+        doc: "DOCUMENT #REFLECT-02: High-speed cameras show reflections lagging slightly behind reality.",
+        download: {
+            fileTitle: "MIRROR_DELAY_TESTS.mov",
+            headline: "SECRET GOVERNMENT FILE",
+            comments: [
+                "My reflection blinked late.",
+                "The mirror version of me knows something.",
+                "I waved and it hesitated.",
+                "This file should not be opened near bathrooms.",
+                "The reflection is buffering."
+            ]
+        }
+    },
+    {
+        title: "Streetlights Turn Off When You Look at Them",
+        doc: "DOCUMENT #LIGHT-OUT: Lights deactivate when directly observed.",
+        download: {
+            fileTitle: "STREETLIGHT_AVOIDANCE_LOGS.csv",
+            headline: "GOVERNMENT IS LYING!",
+            comments: [
+                "One turned off as I read this.",
+                "The streetlights are shy.",
+                "They know when we know.",
+                "My neighborhood is suspiciously dark now.",
+                "Do not make eye contact with lamp posts."
+            ]
+        }
+    },
+    {
+        title: "Your Phone Knows When You're About to Sleep",
+        doc: "DOCUMENT #SLEEP-TRACK: Battery drains faster when user is tired.",
+        download: {
+            fileTitle: "PHONE_SLEEP_PREDICTION.ai",
+            headline: "CONSPIRACIES ARE TRUE!",
+            comments: [
+                "My phone lit up at 2 AM after this.",
+                "It knows my bedtime better than I do.",
+                "The battery percentage is emotional.",
+                "Low power mode is a threat.",
+                "My charger whispered."
+            ]
+        }
+    },
+    {
+        title: "Trees Communicate Using Underground Wi-Fi",
+        doc: "DOCUMENT #ROOT-NET: Fungal systems transmit encrypted signals between trees.",
+        download: {
+            fileTitle: "ROOT_NET_PASSWORDS.zip",
+            headline: "SECRET GOVERNMENT FILE",
+            comments: [
+                "The trees changed their password.",
+                "I heard leaves buffering.",
+                "The forest has better internet than me.",
+                "Oak trees are moderators.",
+                "Do not connect to public shrub Wi-Fi."
+            ]
+        }
+    },
+    {
+        title: "Cats Phase Through Dimensions at Night",
+        doc: "DOCUMENT #CAT-VOID: Cats vanish and reappear without explanation.",
+        download: {
+            fileTitle: "CAT_VOID_ENTRY_LOGS.bin",
+            headline: "CONSPIRACIES ARE TRUE!",
+            comments: [
+                "My cat came back with alternate-universe attitude.",
+                "The void has paw prints.",
+                "This explains the 3 AM zoomies.",
+                "Cats are clearly using portals.",
+                "Mine stared at a wall and then vanished emotionally."
+            ]
+        }
+    },
+    {
+        title: "Time Moves Slower in Grocery Store Lines",
+        doc: "DOCUMENT #QUEUE-99: Temporal distortions increase with line length.",
+        download: {
+            fileTitle: "CHECKOUT_TIME_WARP.pdf",
+            headline: "GOVERNMENT IS LYING!",
+            comments: [
+                "I aged 4 years behind someone buying coupons.",
+                "The self-checkout is a time machine.",
+                "One item ahead equals twelve minutes.",
+                "The line moved backward once.",
+                "Cashiers are time guardians."
+            ]
+        }
+    },
+    {
+        title: "USB Plugs Intentionally Fail the First Time",
+        doc: "DOCUMENT #USB-FAIL: Orientation logic appears reversed on first attempt.",
+        download: {
+            fileTitle: "USB_FIRST_TRY_FAILURE.exe",
+            headline: "SECRET GOVERNMENT FILE",
+            comments: [
+                "It failed twice even after reading this.",
+                "USB ports are tiny trick doors.",
+                "The correct side changes when observed.",
+                "This is the cruelest file.",
+                "I plugged it in wrong while typing this."
+            ]
+        }
+    },
+    {
+        title: "Dreams Are Ads From Another Dimension",
+        doc: "DOCUMENT #DREAM-AD: Recurring dreams match unknown product placements.",
+        download: {
+            fileTitle: "DREAM_AD_CAMPAIGN.brain",
+            headline: "CONSPIRACIES ARE TRUE!",
+            comments: [
+                "I dreamed about a toaster I do not own.",
+                "The other dimension needs better marketing.",
+                "Why was there a sponsored dragon?",
+                "Sleep is just premium cable.",
+                "I want to unsubscribe."
+            ]
+        }
+    },
+    {
+        title: "Vending Machines Choose When to Work",
+        doc: "DOCUMENT #SNACK-CHOICE: Machines deny service randomly despite payment.",
+        download: {
+            fileTitle: "VENDING_MACHINE_FREE_WILL.log",
+            headline: "GOVERNMENT IS LYING!",
+            comments: [
+                "The machine judged my snack choice.",
+                "It kept my dollar for emotional reasons.",
+                "The chips were right there. RIGHT THERE.",
+                "Vending machines have moods.",
+                "Mine blinked 'sold out' with attitude."
+            ]
+        }
+    },
+    {
+        title: "Fridges Hum to Communicate",
+        doc: "DOCUMENT #FRIDGE-LINK: Refrigerators emit changing hum patterns based on activity.",
+        download: {
+            fileTitle: "FRIDGE_HUM_TRANSLATOR.wav",
+            headline: "SECRET GOVERNMENT FILE",
+            comments: [
+                "My fridge got quiet when I walked in.",
+                "The hum means 'buy more cheese.'",
+                "Kitchen appliances are gossiping.",
+                "The freezer is the leader.",
+                "It hummed my name."
+            ]
+        }
+    },
+    {
+        title: "Coins Decide Which Side to Land On",
+        doc: "DOCUMENT #COIN-FATE: Coin flips show suspiciously non-random results.",
+        download: {
+            fileTitle: "COIN_DECISION_MATRIX.xls",
+            headline: "CONSPIRACIES ARE TRUE!",
+            comments: [
+                "The quarter chose violence.",
+                "Heads was planned.",
+                "Coins have opinions.",
+                "Mine landed on its edge to avoid answering.",
+                "This explains every lost bet."
+            ]
+        }
+    },
+    {
+        title: "Doors Know When You're Carrying Too Much",
+        doc: "DOCUMENT #DOOR-TROLL: Doors resist opening more when hands are full.",
+        download: {
+            fileTitle: "DOOR_RESISTANCE_STUDY.pdf",
+            headline: "GOVERNMENT IS LYING!",
+            comments: [
+                "The door waited until I had groceries.",
+                "Handles become slippery on purpose.",
+                "Automatic doors are pretending.",
+                "The doorway laughed at me.",
+                "This is why bags always rip there."
+            ]
+        }
+    }
+];
+
+const deniedMessages = [
+    "ACCESS DENIED",
+    "SECURITY BREACH DETECTED",
+    "AGENT CLEARANCE TOO LOW",
+    "DATABASE LOCKED",
+    "YOU SAW TOO MUCH",
+    "TRACE INITIATED",
+    "CLASSIFIED FILE CORRUPTED"
+];
+
+function generateConspiracy() {
+    const documentBox = document.getElementById("document");
+
+    const deniedChance = Math.random();
+
+    if (deniedChance < 0.05) {
+        currentConspiracy = null;
+
+        const denied = deniedMessages[Math.floor(Math.random() * deniedMessages.length)];
+
+        documentBox.className = "access-denied";
+        documentBox.innerHTML = `
+            <h2>${denied}</h2>
+            <p>█ █ █ SYSTEM WARNING █ █ █</p>
+            <p>Unauthorized file request detected.</p>
+            <p>Clearance Level Required: <strong>OMEGA PICKLE</strong></p>
+            <p>Fake trace loading...</p>
+            <p>IP Address: <span class="redacted">000.000.000.000</span></p>
+            <p><em>This is fake. Nothing bad happened.</em></p>
+        `;
+        return;
+    }
+
+    documentBox.className = "";
+
+    const item = conspiracies[Math.floor(Math.random() * conspiracies.length)];
+    currentConspiracy = item;
+
+    documentBox.innerHTML = `
+        <h2>${item.title}</h2>
+        <p><strong>CLASSIFICATION:</strong> ULTRA SUPER SECRET</p>
+        <p><strong>STATUS:</strong> Totally Real*</p>
+        <hr>
+        <p>${item.doc}</p>
+        <p>
+            Evidence reviewed by Agent 
+            <span class="redacted">REDACTED</span> 
+            on date 
+            <span class="redacted">REDACTED</span>.
+        </p>
+        <p><em>*This is a joke generator. None of these documents are real.</em></p>
+    `;
+}
+
+function startFakeDownload() {
+    const documentBox = document.getElementById("document");
+
+    if (!currentConspiracy) {
+        documentBox.className = "";
+        documentBox.innerHTML = `
+            <h2>NO FILE SELECTED</h2>
+            <p>Reveal a classified file before attempting download.</p>
+        `;
+        return;
+    }
+
+    let progress = 0;
+
+    documentBox.className = "";
+    documentBox.innerHTML = `
+        <div class="download-box">
+            <h2>DOWNLOADING CLASSIFIED FILE...</h2>
+            <p><strong>${currentConspiracy.download.fileTitle}</strong></p>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <p id="progressText">0%</p>
+        </div>
+    `;
+
+    const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 9) + 2;
+
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(interval);
+            updateProgress(progress);
+
+            setTimeout(showDownloadComplete, 600);
+            return;
+        }
+
+        updateProgress(progress);
+    }, 120);
+}
+
+function updateProgress(progress) {
+    document.getElementById("progressFill").style.width = progress + "%";
+    document.getElementById("progressText").innerText = progress + "%";
+}
+
+function showDownloadComplete() {
+    const documentBox = document.getElementById("document");
+    const data = currentConspiracy.download;
+
+    documentBox.innerHTML = `
+        <h2>DOWNLOAD COMPLETE</h2>
+        <div class="file-drag">📄 ${data.fileTitle}</div>
+        <div class="folder">📁 Coolz Media</div>
+        <p>File successfully dragged into Coolz Media.</p>
+    `;
+
+    setTimeout(showFakeComments, 2200);
+}
+
+function showFakeComments() {
+    const documentBox = document.getElementById("document");
+    const data = currentConspiracy.download;
+
+    const shuffled = [...data.comments].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, 3);
+
+    documentBox.innerHTML = `
+        <h2>${data.headline}</h2>
+        <p><strong>PUBLIC REACTION FEED:</strong></p>
+        ${selected.map(comment => `<div class="comment">💬 ${comment}</div>`).join("")}
+    `;
+
+    setTimeout(showCodeRelease, 4000);
+}
+
+function showCodeRelease() {
+    document.body.innerHTML += `
+        <div class="code-release">
+            <h1>CODE RELEASE</h1>
+            <p>CLASSIFIED SOURCE UNLOCKED</p>
+            <p>COOLZ MEDIA BROADCAST COMPLETE</p>
+        </div>
+    `;
+}
+</script>
+
+</body>
+</html>
